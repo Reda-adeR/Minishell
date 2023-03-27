@@ -3,33 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-mham <rel-mham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aharrass <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/06 17:55:19 by rel-mham          #+#    #+#             */
-/*   Updated: 2023/02/24 18:04:32 by rel-mham         ###   ########.fr       */
+/*   Created: 2022/10/07 16:08:52 by aharrass          #+#    #+#             */
+/*   Updated: 2022/10/22 23:14:57 by aharrass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-char	*ft_strchr(const char	*s, int c)
+char	*ft_strchr(const char *s, int c)
 {
-	int	i;
-
-	i = 0;
-	while (s[i] != '\0')
+	while (*s != '\0')
 	{
-		if (s[i] == (char )c)
-			return ((char *) s + i);
-		i++;
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
 	}
-	if ((char)c == '\0')
-		return ((char *) s + i);
-	return (NULL);
-}
-
-#include<stdio.h>
-int main()
-{
-	printf("%s\n", ft_strchr(";cghg|wchel|dash", '|'));
+	if (*s == (char)c)
+		return ((char *)s);
+	return (0);
 }

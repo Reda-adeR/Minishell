@@ -6,11 +6,12 @@
 /*   By: rel-mham <rel-mham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 16:08:51 by rel-mham          #+#    #+#             */
-/*   Updated: 2023/03/07 18:51:41 by rel-mham         ###   ########.fr       */
+/*   Updated: 2023/03/17 11:41:19 by rel-mham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include<stdio.h>
 
 void	sa_help(t_data *g, int n)
 {
@@ -56,6 +57,8 @@ void	wc_help(t_data *g, int n)
 	while (1)
 	{
 		g->idx++;
+		if (g->str[g->idx] && g->str[g->idx] == n)
+			break ;
 		if (g->str[g->idx] == n || g->str[g->idx] == '\0')
 		{
 			while ((g->str[g->idx + 1] != g->c && g->str[g->idx + 1] != '\t'
@@ -65,19 +68,21 @@ void	wc_help(t_data *g, int n)
 			break ;
 		}
 	}
-	g->i++;
+	if (g->str[g->idx + 1] == g->c || g->str[g->idx + 1] == '\t'
+		|| g->str[g->idx + 1] == '\n' || g->str[g->idx + 1] == 0)
+		g->i++;
 }
 
 int	word_count(t_data *g)
 {
-	g->i = 0;
 	g->on = 0;
 	while (g->str[++g->idx])
 	{
 		if (g->on == 1 && (g->str[g->idx] == 34 || g->str[g->idx] == 39))
 		{
 			g->idx++;
-			while (g->str[g->idx] != 34 && g->str[g->idx] != 39)
+			while (g->str[g->idx]
+				&& g->str[g->idx] != 34 && g->str[g->idx] != 39)
 				g->idx++;
 		}
 		else if (g->str[g->idx] == 34)
@@ -117,10 +122,9 @@ char	**ft_split_qk(char const *s, char c)
 	g.str = s;
 	g.idx = -1;
 	g.c = c;
+	g.i = 0;
 	g.nbr_word = word_count(&g);
 	splited = malloc((g.nbr_word + 1) * sizeof(char *));
-	if (!splited)
-		return (NULL);
 	str_alloc(splited, &g);
 	splited[g.nbr_word] = NULL;
 	return (splited);

@@ -3,72 +3,83 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rel-mham <rel-mham@student.42.fr>          +#+  +:+       +#+         #
+#    By: aharrass <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/10/17 17:55:26 by rel-mham          #+#    #+#              #
-#    Updated: 2023/03/03 15:25:17 by rel-mham         ###   ########.fr        #
+#    Created: 2022/10/06 20:48:11 by aharrass          #+#    #+#              #
+#    Updated: 2023/03/16 20:56:50 by aharrass         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libft.a
+NAME	=	libft.a
 
-SRC = ft_isalnum.c \
-		ft_isalpha.c \
-			ft_isdigit.c \
-				ft_isprint.c \
-					ft_memchr.c \
-						ft_memcmp.c \
-							ft_strlen.c \
-								ft_memset.c \
-									ft_isascii.c \
-										ft_bzero.c \
-											free_me.c \
-											ft_memcpy.c \
-												ft_toupper.c \
-													ft_tolower.c \
-														ft_strchr.c \
-															ft_strrchr.c \
-																ft_strncmp.c \
-																ft_strcmp.c \
-															ft_strlcpy.c \
-														ft_strnstr.c \
-														ft_atoi.c \
-													ft_calloc.c \
-												ft_strdup.c \
-											ft_strlcat.c \
-										ft_substr.c \
-									ft_strjoin.c \
-								ft_itoa.c \
-							ft_strmapi.c \
-						ft_striteri.c \
-					ft_putchar_fd.c \
-				ft_putstr_fd.c \
-			ft_putendl_fd.c \
-		ft_putnbr_fd.c \
-		ft_split.c \
-	ft_strtrim.c \
-ft_memmove.c \
-ft_split_qk.c
+SRCS	=	ft_isalpha.c		\
+				ft_isprint.c		\
+				ft_isdigit.c		\
+				ft_isalnum.c		\
+				ft_isascii.c		\
+				ft_toupper.c		\
+				ft_tolower.c		\
+				ft_strlen.c			\
+				ft_strchr.c			\
+				ft_strrchr.c		\
+				ft_memset.c			\
+				ft_strncmp.c		\
+				ft_strcmp.c			\
+				ft_atoi.c				\
+				ft_strlcat.c		\
+				ft_strlcpy.c		\
+				ft_bzero.c			\
+				ft_strnstr.c		\
+				ft_memcpy.c			\
+				ft_memmove.c		\
+				ft_memcmp.c			\
+				ft_memchr.c			\
+				ft_calloc.c			\
+				ft_strdup.c			\
+				ft_substr.c			\
+				ft_strjoin.c		\
+				ft_strjoin1.c		\
+				ft_strjoin2.c		\
+				ft_strtrim.c		\
+				ft_split.c			\
+				ft_itoa.c				\
+				ft_strmapi.c		\
+				ft_striteri.c		\
+				ft_putchar_fd.c	\
+				ft_putstr_fd.c	\
+				ft_putendl_fd.c	\
+				ft_putnbr_fd.c	\
+				ft_strjoin3.c		\
+				free_me.c				\
+				ft_split_qk.c		\
+				ft_strcmp2.c		\
+				
 
+OB_PATH = ../obj/
 
-.SILENT:
+OBJS	=	${addprefix ${OB_PATH}, ${SRCS:.c=.o}}
 
-FLAGS = -Wall -Wextra -Werror
+CC		=	cc
 
-OBJS = $(SRC:.c=.o)
+RM		=	rm -f
 
-all:$(NAME)
+CFLAGS	=	-Wall -Wextra -Werror
 
-$(NAME):$(OBJS)
-	ar -rc $(NAME) $(OBJS)
+all:		${NAME}
 
-%.o:%.c
-	gcc $(FLAGS) -c $<
+${OB_PATH}%.o : %.c
+			@mkdir -p ${OB_PATH}
+			cc ${CFLAGS} -c $< -o $@
+
+${NAME}:	${OBJS}
+			ar -rcs ${NAME} ${OBJS}
 
 clean:
-	rm -f $(OBJS)
+			${RM} ${OBJS}
 
-fclean:clean
-	rm -f $(NAME)
+fclean:		clean
+			${RM} ${NAME}
 
-re:fclean all
+re:			fclean all
+
+.PHONY:		all clean fclean re

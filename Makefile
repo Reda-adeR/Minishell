@@ -1,41 +1,81 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: rel-mham <rel-mham@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/12/26 21:54:49 by rel-mham          #+#    #+#              #
-#    Updated: 2023/03/09 15:04:22 by rel-mham         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = minishell
 
-SRC =	main.c \
-		lexer.c \
-		lexer_utils.c \
-		stack_func.c \
-		syntax_error.c \
-		env_maker.c \
-		fill_list.c
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address #-lreadline
 
-CFLAGS = -Wall -Wextra -Werror
+RM = rm -f
 
-OBJS = $(SRC:.c=.o)
+LDFLAGS= -L /Users/aharrass/goinfre/homebrew/opt/readline/lib
 
-all:$(NAME)
+CPPFLAGS= -I /Users/aharrass/goinfre/homebrew/opt/readline/include
 
-$(NAME):$(OBJS)
-	make -C ./libft
-	cc $(CFLAGS) -lreadline -o  $(NAME) $(OBJS) ./libft/libft.a
+LIBFT = ./libft
+
+LIBFT_AR = ./libft/libft.a
+
+SR_PATH = ./src/
+
+OB_PATH = ./obj/
+
+INCLUDE = -I ./includes
+
+SR =	echo.c		\
+			pwd.c			\
+			cd.c			\
+			env.c			\
+			export.c	\
+			export_utils.c	\
+			unset.c		\
+			ft_lst.c	\
+			ft_lst2.c	\
+			err.c			\
+			exit.c		\
+			heredoc.c	\
+			sigs.c		\
+			execution.c	\
+			execution_utlis.c	\
+			execution_utils2.c	\
+			execution_utils3.c	\
+			here_expnd.c	\
+			pars_fill_list.c	\
+			pars_flist_utils.c	\
+			pars_open_files.c \
+			pars_ofiles_utils.c \
+			pars_flist_stack.c	\
+			pars_lexer.c	\
+			pars_lexer_utils.c	\
+			pars_stack_func.c	\
+			pars_syntax_error.c	\
+			pars_syntax_utils.c \
+			pars_expander.c	\
+			pars_expander_utils.c \
+			pars_expander_cases.c \
+			pars_main.c	\
+			pars_qcleaner.c \
+			pars_clone_qcleaner.c \
+			
+SRCS = $(addprefix ${SR_PATH}, ${SR})
+
+OBJS = $(addprefix ${OB_PATH}, ${SR:.c=.o})
+
+all	: ${NAME}
+
+${OB_PATH}%.o	:	${SR_PATH}%.c
+			@mkdir -p ${OB_PATH}
+			cc ${CFLAGS} ${INCLUDE} -c $< -o $@ 
+
+${NAME}	:	${OBJS}
+	make -C ${LIBFT}
+	cc ${CFLAGS} ${CPPFLAGS} ${LDFLAGS} ${INCLUDE} ${OBJS} ${LIBFT_AR} -lreadline -o ${NAME}
 
 clean:
-	make clean -C ./libft
-	rm -f $(OBJS)
+			make clean -C ${LIBFT}
+			${RM} ${OBJS}
+			${RM} -r ${OB_PATH}
 
-fclean:clean
-	make fclean -C ./libft
-	rm -f $(NAME)
+fclean: clean
+			make fclean -C ${LIBFT}
+			${RM} ${NAME}
 
-re:fclean all
+re:	fclean all
+
+.PHONY: clean fclean re

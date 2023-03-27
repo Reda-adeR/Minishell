@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack_func.c                                       :+:      :+:    :+:   */
+/*   pars_stack_func.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-mham <rel-mham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aharrass <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 20:12:05 by rel-mham          #+#    #+#             */
-/*   Updated: 2023/03/03 07:34:03 by rel-mham         ###   ########.fr       */
+/*   Updated: 2023/03/26 17:43:00 by aharrass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
-t_stack	*ft_lstnew(char c)
+t_stack	*ft_lstnew2(char c)
 {
 	t_stack	*list1;
 
@@ -58,15 +58,19 @@ void	add_push(t_stack **lst, char c)
 {
 	t_stack	*new;
 
-	new = ft_lstnew(c);
+	new = ft_lstnew2(c);
 	ft_lstadd_front(lst, new);
 }
 
 void	free_lst(t_stack *lst)
 {
+	t_stack	*tmp;
+
+	tmp = lst;
 	while (lst)
 	{
-		free(lst);
+		tmp = lst;
 		lst = lst->next;
+		free(tmp);
 	}
 }

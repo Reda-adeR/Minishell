@@ -3,21 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-mham <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aharrass <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/18 21:07:00 by rel-mham          #+#    #+#             */
-/*   Updated: 2022/10/19 09:27:43 by rel-mham         ###   ########.fr       */
+/*   Created: 2022/10/19 02:49:23 by aharrass          #+#    #+#             */
+/*   Updated: 2022/10/20 19:57:30 by aharrass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	int	i;
+	unsigned int	i;
 
-	if (s)
+	if (!s || !f)
+		return ;
+	i = 0;
+	while (s[i])
 	{
-		i = -1;
-		while (s[++i])
-			f(i, &s[i]);
+		f(i, (s + i));
+		i++;
 	}
 }

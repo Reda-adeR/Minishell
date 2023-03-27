@@ -3,36 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-mham <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aharrass <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/07 20:19:18 by rel-mham          #+#    #+#             */
-/*   Updated: 2022/10/23 22:48:46 by rel-mham         ###   ########.fr       */
+/*   Created: 2022/10/13 11:42:38 by aharrass          #+#    #+#             */
+/*   Updated: 2022/10/23 00:42:50 by aharrass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memmove(void *dest, const void *src, size_t len)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	char	*cstd_dest;
-	char	*cstd_src;
 	size_t	i;
+	char	*char_d;
+	char	*char_s;
 
 	i = 0;
-	cstd_dest = (char *)dest;
-	cstd_src = (char *)src;
-	if (cstd_dest == NULL && cstd_src == NULL)
+	char_d = (char *) dst;
+	char_s = (char *) src;
+	if (!dst && !src)
 		return (NULL);
-	if (cstd_dest >= cstd_src)
+	if (dst > src)
 	{
-		i = len;
-		while (i-- > 0)
-			cstd_dest[i] = cstd_src[i];
+		while (len--)
+			char_d[len] = char_s[len];
 	}
-	while (i < len)
+	else
 	{
-		cstd_dest[i] = cstd_src[i];
-		i++;
+		while (i < len)
+		{
+			char_d[i] = char_s[i];
+			i++;
+		}
 	}
-	return (cstd_dest);
+	return (dst);
 }

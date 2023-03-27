@@ -3,67 +3,96 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rel-mham <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aharrass <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/18 11:55:09 by rel-mham          #+#    #+#             */
-/*   Updated: 2022/10/19 13:32:40 by rel-mham         ###   ########.fr       */
+/*   Created: 2022/10/18 20:27:19 by aharrass          #+#    #+#             */
+/*   Updated: 2022/10/24 00:14:52 by aharrass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	len_int(long int n)
+static int	int_len(long n)
 {
-	int	len_int;
+	int	len;
+	int	buff;
 
-	len_int = 0;
-	if (n <= 0)
-		len_int++;
-	while (n > 0 || n < 0)
+	len = 1;
+	if (n >= 0)
+		buff = n;
+	else
 	{
-		n = n / 10;
-		len_int++;
+		len++;
+		buff = -n;
 	}
-	return (len_int);
+	while (buff > 9)
+	{
+		buff /= 10;
+		len++;
+	}
+	return (len);
 }
 
-static char	*fill_str(long int ncpy, int len, char *str)
+static char	*int_min(int n)
 {
-	int		swp;
+	int		len;
+	char	*res;
 
-	swp = 0;
-	if (ncpy == 0)
+	n += 1;
+	len = int_len(n);
+	res = malloc(sizeof(char) * (len + 1));
+	if (!res)
+		return (0);
+	res[len] = '\0';
+	res[0] = '-';
+	n *= -1;
+	res[--len] = ((n % 10) + 1) + '0';
+	n /= 10;
+	while (len > 1)
 	{
-		str[0] = 0 + '0';
-		str[1] = '\0';
-		return (str);
+		res[len - 1] = (n % 10) + '0';
+		len--;
+		n /= 10;
 	}
-	if (ncpy < 0)
+	return (res);
+}
+
+static char	*helper(int n, int len, char *res)
+{
+	res[len] = '\0';
+	while (len > 0)
 	{
-		str[0] = '-';
-		ncpy = ncpy * -1;
-		swp = 1;
+		res[len - 1] = (n % 10) + '0';
+		len--;
+		n /= 10;
 	}
-	str[len] = '\0';
-	while (len-- > swp)
-	{
-		str[len] = (ncpy % 10) + 48;
-		ncpy = ncpy / 10;
-	}
-	return (str);
+	return (res);
 }
 
 char	*ft_itoa(int n)
 {
-	long int	nb;
-	char		*str;
-	int			len;
+	char	*res;
+	int		len;
 
-	nb = n;
-	len = len_int(nb);
-	str = malloc(len * sizeof (char) + 1);
-	if (!str)
-		return (NULL);
-	str = fill_str(nb, len, str);
-	return (str);
+	len = int_len(n);
+	if (n == -2147483648)
+		return (int_min(n));
+	res = malloc(sizeof (char) * (len + 1));
+	if (!res)
+		return (0);
+	if (n >= 0)
+		return (helper(n, len, res));
+	else
+	{	
+		res[0] = '-';
+		res[len] = '\0';
+		n *= -1;
+		while (len > 1)
+		{
+			res[len - 1] = (n % 10) + '0';
+			len--;
+			n /= 10;
+		}
+	}	
+	return (res);
 }
